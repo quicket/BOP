@@ -40,6 +40,10 @@ public class ParMergeSort extends Thread{
 		logger.debug("Thread("+Thread.currentThread().getName()+"),merge(A,p="+p+",q="+q+",r="+r+") end....");
 	}
 	
+	/*
+	 * Keep the function same as single-thread mergeSort to achieve minimum changes.
+	 * Multi-Thread Merge Sort should keep the function definition almost the same as single-thread Merge Sort. 
+	 */
 	public static void mergeSort(int T[], int p , int r) {
 		logger.info("Thread("+Thread.currentThread().getName()+"),p_mergeSort(T"+","+p+","+r+") begin...");
 		if((T==null) || (p>=r))  {
