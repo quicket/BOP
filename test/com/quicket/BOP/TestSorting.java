@@ -9,8 +9,35 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import com.quicket.BOP.ParMergeSort;
+import com.quicket.BOP.Sorting;
+
 public class TestSorting {
 	public static Logger logger = Logger.getLogger(TestSorting.class);
+	
+	@Test
+	public void testPartition() {
+		int T3[] = {8,4,5};
+		int ip3=Sorting.partition(T3, 0, T3.length-1);
+		boolean flag3= Sorting.isPartitioned(T3,ip3);
+		Assert.assertEquals(true, flag3);
+		
+		int T4[] = {4,7,6,1};
+		int ip4=Sorting.partition(T4, 0, T4.length-1);
+		boolean flag4= Sorting.isPartitioned(T4,ip4);
+		Assert.assertEquals(true, flag4);
+		
+		for(int i=0;i<10000;i++) {
+			int length = (new Random()).nextInt(100);
+			int T [] =new int[length];
+			for (int j=0;j<T.length;j++) {
+				T[j] = (new Random()).nextInt(1000);
+			}
+			int ip = Sorting.partition(T, 0,T.length-1); 
+			boolean flag= Sorting.isPartitioned(T,ip);
+			Assert.assertEquals(true, flag); 
+		}
+	}
 	//@Test
 	public void testBinarySearch() {
 		int x1 = 4;
@@ -205,7 +232,7 @@ public class TestSorting {
 		}
 	}
 	
-	@Test 
+	//@Test 
 	public void testParMergeSort() {
 		Sorting.logger.setLevel(Level.INFO);
 		int A1[] = null;

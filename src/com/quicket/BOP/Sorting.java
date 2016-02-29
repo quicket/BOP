@@ -6,6 +6,91 @@ import org.apache.log4j.Logger;
 
 public class Sorting {
 	public static Logger logger = Logger.getLogger(Sorting.class);
+	public static void swap(int [] T, int p, int q) {
+		if ( (T==null) || (p==q) )
+			return;
+		int temp = T[p];
+		T[p]=T[q];
+		T[q]=temp;
+	}
+	//use right-most as pivot, to keep ordering,
+	//T[l....pi]<= T[pi] < T[pi+1...r]
+	public static boolean isPartitioned(int [] T, int ip) {
+		boolean flag = true;
+		for(int i=0;i<ip;i++) {
+			if(T[i]>T[ip]) {
+				flag= false;
+				break;
+			}
+		}
+		if(flag == true) {
+			for(int i=ip+1;i<T.length;i++) {
+				if(T[i]<=T[ip]) {
+					flag= false;
+					break;
+				}
+			}
+		}
+		logger.info("isPartitioned(T,"+ip+")==="+flag+",T=["+Arrays.toString(T)+"]");
+		return flag;
+	}
+	
+	public static int partition( int [] T, int l, int r) {
+		logger.info("partition(T,"+l+","+r+"),T=["+Arrays.toString(T)+"] begin...");
+		if(T==null || T.length == 0) 
+			return l;
+		//don't need this, this case is handled properly in below code
+/*		if(l==r) {
+			return l;
+		}*/
+		int i = l-1;
+		int j = l;
+		int pv = T[r];
+		for(;j<r;j++) {
+			if(T[j]<=pv) {
+				i++;
+				swap(T,j,i);
+			}
+		}
+		swap(T,r,i+1);
+		logger.info("partition(T,"+l+","+r+")==="+(i+1)+",T=["+Arrays.toString(T)+"] end...");
+		return i+1;
+	}
+	public static int partitionOld ( int []T, int l, int r) {
+		logger.info("partition(T,"+l+","+r+")===,T=["+Arrays.toString(T)+"] begin...");
+		if ((T == null) || (l>=r)) {
+			return l;
+		}
+		//choose leftmost element as pivot
+		int ip= l;
+		int pivot= T[ip];
+		int il= l+1;
+		int ir= r;
+		//not elegant!!
+		while (il<ir) {
+			while((il<r) && (T[il]<pivot))
+				il++;
+			while(ir>=il && (T[ir]>=pivot)) {
+				ir--;
+			}
+			if(il<ir) {
+				swap(T,il,ir);
+				il++;
+				ir--;
+			}
+		}
+		if((T[ir]>=pivot) && (ir>=il)) {
+			ir--;
+		}
+		if(T[ir]<T[ip]) {
+			swap(T,ip,ir);
+			ip=ir;
+		}
+		logger.info("partition(T,"+l+","+r+")==="+ip+",T=["+Arrays.toString(T)+"] end...");
+		return ip;
+	}
+	
+	
 	
 	public static int BinarySearch(int x, int[] T, int p, int r) {
 		if((T == null) || (p> r)) {
@@ -147,4 +232,5 @@ public class Sorting {
 		merge(A,p,i+1,r);
 		logger.debug("mergeSort(A,"+p+","+r+")" +Arrays.toString(A)+" end...");
 	}
+	
 }
